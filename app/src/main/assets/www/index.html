@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>SWYP</title>
+  <link rel="icon" href="img/icon.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Home -->
+    <section id="home" class="screen active" aria-label="Home">
+      <header class="home-head">
+        <div class="brand">
+          <img src="img/icon.png" alt="" class="brand-icon">
+          <span class="wordmark">SWYP</span>
+        </div>
+        <button class="icon-btn" id="btn-settings" aria-label="Settings" data-icon="settings"></button>
+      </header>
+
+      <div class="home-scroll">
+        <div class="hero">
+          <h1>Make every swipe<br><em>feel seamless.</em></h1>
+          <p>Design one long canvas. SWYP slices it into a carousel that flows from one photo to the next.</p>
+        </div>
+
+        <button class="new-card" id="btn-new">
+          <span class="new-card-art" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+          <span class="new-card-text">
+            <strong>New carousel</strong>
+            <small>Up to 20 slides · 4:5, 3:4, 1:1 or 9:16</small>
+          </span>
+          <span class="new-card-plus" data-icon="plus"></span>
+        </button>
+
+        <div class="section-head">
+          <h2>Start from a template</h2>
+        </div>
+        <div class="templates" id="templates"></div>
+
+        <div class="section-head">
+          <h2>Your projects <span id="proj-count" class="count"></span></h2>
+          <button class="link-btn" id="btn-import">Import file</button>
+        </div>
+        <div id="projects" class="projects"></div>
+        <div id="empty" class="empty" hidden>
+          <div class="empty-strip" aria-hidden="true"><i></i><i></i><i></i></div>
+          <p>No projects yet. Your carousels will live here, saved on this phone.</p>
+        </div>
+        <p class="foot">Free forever · no accounts · no watermark</p>
+      </div>
+    </section>
+
+    <!-- Editor -->
+    <section id="editor" class="screen" aria-label="Editor">
+      <header class="ed-top">
+        <button class="icon-btn" id="ed-back" aria-label="Back to projects" data-icon="back"></button>
+        <button class="ed-title" id="ed-title"><span id="ed-name">Untitled</span><small id="ed-meta"></small></button>
+        <div class="ed-actions">
+          <button class="icon-btn" id="ed-undo" aria-label="Undo" data-icon="undo"></button>
+          <button class="icon-btn" id="ed-redo" aria-label="Redo" data-icon="redo"></button>
+          <button class="icon-btn" id="ed-preview" aria-label="Preview" data-icon="eye"></button>
+          <button class="btn-primary sm" id="ed-save"><span data-icon="download"></span>Save</button>
+        </div>
+      </header>
+
+      <div class="stage-host" id="stage-host">
+        <canvas id="stage"></canvas>
+        <div class="slide-nav" id="slide-nav">
+          <button class="nav-btn" id="nav-prev" aria-label="Previous slide" data-icon="chevl"></button>
+          <button class="nav-count" id="nav-count">1 / 1</button>
+          <button class="nav-btn" id="nav-next" aria-label="Next slide" data-icon="chevr"></button>
+        </div>
+        <div class="crop-hint" id="crop-hint" hidden>
+          <span>Drag to reposition · pinch to zoom</span>
+          <button id="crop-done">Done</button>
+        </div>
+      </div>
+
+      <div class="bottom" id="bottom">
+        <div class="tray" id="tray" hidden></div>
+        <div class="ctx" id="ctx" hidden>
+          <button class="ctx-done" id="ctx-done" aria-label="Deselect" data-icon="check"></button>
+          <div class="ctx-scroll" id="ctx-tools"></div>
+        </div>
+        <nav class="dock" id="dock">
+          <button data-tool="photos"><span data-icon="photo"></span>Photos</button>
+          <button data-tool="text"><span data-icon="text"></span>Text</button>
+          <button data-tool="layouts"><span data-icon="layout"></span>Layouts</button>
+          <button data-tool="stickers"><span data-icon="sticker"></span>Stickers</button>
+          <button data-tool="background"><span data-icon="background"></span>Canvas</button>
+          <button data-tool="slides"><span data-icon="slides"></span>Slides</button>
+          <button data-tool="layers"><span data-icon="layers"></span>Layers</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Preview -->
+    <section id="preview" class="screen" aria-label="Preview">
+      <header class="ed-top">
+        <button class="icon-btn" id="pv-back" aria-label="Back to editor" data-icon="back"></button>
+        <div class="pv-title">Preview</div>
+        <button class="btn-primary sm" id="pv-save"><span data-icon="download"></span>Save</button>
+      </header>
+      <div class="pv-tabs">
+        <div class="seg" id="pv-seg">
+          <button class="on" data-v="post">Post</button>
+          <button data-v="grid">Profile grid</button>
+        </div>
+      </div>
+      <div class="pv-scroll">
+        <article class="post" id="pv-post">
+          <div class="post-head">
+            <span class="avatar"><img src="img/icon.png" alt=""></span>
+            <div><strong>your.account</strong><small>Original audio</small></div>
+            <span data-icon="more" class="post-more"></span>
+          </div>
+          <div class="post-media" id="pv-media">
+            <div class="pv-track" id="pv-track"></div>
+            <span class="pv-counter" id="pv-counter">1/1</span>
+          </div>
+          <div class="post-actions">
+            <span data-icon="heart"></span><span data-icon="comment"></span><span data-icon="send"></span>
+            <div class="pv-dots" id="pv-dots"></div>
+            <span data-icon="bookmark" class="right"></span>
+          </div>
+          <div class="post-copy">
+            <strong>128 likes</strong>
+            <p><strong>your.account</strong> swipe → it keeps going</p>
+          </div>
+        </article>
+        <section class="profile" id="pv-profile" hidden>
+          <div class="pf-head">
+            <span class="avatar lg"><img src="img/icon.png" alt=""></span>
+            <div class="pf-stats">
+              <div><b>128</b><small>posts</small></div>
+              <div><b>1,024</b><small>followers</small></div>
+              <div><b>512</b><small>following</small></div>
+            </div>
+          </div>
+          <div class="pf-bio"><strong>Your Name</strong><span>Swipe-worthy carousels, made with SWYP</span></div>
+          <div class="pf-tabs"><span data-icon="layout" class="on"></span><span data-icon="slides"></span><span data-icon="single"></span></div>
+          <div class="pf-grid" id="pf-grid"></div>
+        </section>
+        <p class="pv-note" id="pv-note">Swipe through and check that the seams line up. This is how friends will see it in their feed.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" hidden>
+    <div class="sheet-grip"></div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <input type="file" id="file-input" accept="image/*" multiple hidden>
+  <input type="file" id="import-input" accept=".swyp,application/json,application/octet-stream" hidden>
+
+  <script src="js/icons.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

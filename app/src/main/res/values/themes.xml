@@ -1,0 +1,13 @@
+<resources>
+    <color name="swyp_bg">#F6F6F9</color>
+    <color name="swyp_icon_bg">#FFFFFF</color>
+
+    <style name="Theme.Swyp" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/swyp_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+    </style>
+</resources>

@@ -1,0 +1,10 @@
+Fonts bundled with SWYP (subset to Latin characters, converted to WOFF):
+
+Inter — Copyright The Inter Project Authors. SIL Open Font License 1.1.
+Poppins — Copyright Indian Type Foundry. SIL Open Font License 1.1.
+Lora — Copyright The Lora Project Authors. SIL Open Font License 1.1.
+TeX Gyre Adventor and TeX Gyre Chorus — Copyright GUST e-foundry. GUST Font License.
+Latin Modern Mono — Copyright GUST e-foundry. GUST Font License.
+
+The SIL Open Font License is at https://openfontlicense.org
+The GUST Font License is at https://www.gust.org.pl/projects/e-foundry/licenses
