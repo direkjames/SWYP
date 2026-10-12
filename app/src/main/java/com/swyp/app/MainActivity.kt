@@ -28,6 +28,9 @@ import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.exifinterface.media.ExifInterface
+import java.text.SimpleDateFormat
+import java.util.Locale
 import androidx.webkit.WebViewAssetLoader
 
 /**
@@ -242,11 +245,27 @@ class MainActivity : ComponentActivity() {
                     resolver.delete(uri, null, null)
                     return "Could not write the photo"
                 }
+                // Stamp a capture time too, so apps that sort by "date taken" (Google Photos,
+                // Samsung Gallery) keep the same order. The page spaces saves a second apart.
+                if (mimeType == "image/jpeg") {
+                    try {
+                        val stamp = SimpleDateFormat("yyyy:MM:dd HH:mm:ss", Locale.US).format(now)
+                        resolver.openFileDescriptor(uri, "rw")?.use { pfd ->
+                            ExifInterface(pfd.fileDescriptor).apply {
+                                setAttribute(ExifInterface.TAG_DATETIME_ORIGINAL, stamp)
+                                setAttribute(ExifInterface.TAG_DATETIME_DIGITIZED, stamp)
+                                setAttribute(ExifInterface.TAG_DATETIME, stamp)
+                                setAttribute(ExifInterface.TAG_SOFTWARE, "SWYP")
+                                saveAttributes()
+                            }
+                        }
+                    } catch (_: Exception) {
+                        // The photo is still saved; it just has no capture time.
+                    }
+                }
                 values.clear()
                 values.put(MediaStore.Images.Media.IS_PENDING, 0)
                 resolver.update(uri, values, null, null)
-                // A small gap keeps the gallery's ordering stable between slides.
-                Thread.sleep(40)
                 "ok"
             } catch (e: Exception) {
                 e.message ?: "Unknown error"

@@ -201,7 +201,7 @@
         h('div', { class: 'label', text: 'Help' }),
         h('button', { class: 'btn-ghost block', onclick: () => { closeSheet(); setTimeout(() => tipsSheet(), 320); } }, [h('span', { 'data-icon': 'info' }), 'Show editor tips']),
         h('div', { class: 'about' }, [h('img', { src: 'img/icon.png', alt: '' }), h('div', {}, [h('b', { text: 'SWYP' }),
-          'Free, with no accounts, ads or watermark. Your projects and photos stay on this phone. Version 1.1'])]));
+          'Free, with no accounts, ads or watermark. Your projects and photos stay on this phone. Version 1.1.1'])]));
     });
   }
 
@@ -1087,13 +1087,20 @@
           const order = [...picked].sort((a, z) => a - z);
           if (Native.bridge) order.reverse();
           const total = order.length;
+          /* Galleries and Instagram sort by the second a photo was added. Two slides saved in the
+             same second come out in random order, so each save waits for a fresh second. */
+          let lastSecond = 0;
+          const nextSecond = async () => {
+            while (Math.floor(Date.now() / 1000) <= lastSecond) await sleep(40);
+            lastSecond = Math.floor(Date.now() / 1000);
+          };
           for (let k = 0; k < total; k++) {
             const i = order[k];
-            status.textContent = `Saving ${k + 1} of ${total}…`;
+            status.textContent = `Saving ${k + 1} of ${total}… (about a second each, to keep them in order)`;
             const c = R.renderSlide(P, assets, i, 1);
             const blob = await new Promise((r) => c.toBlob(r, mime, 0.95));
             const name = `swyp-${base}-${String(i + 1).padStart(2, '0')}.${kind}`;
-            if (Native.bridge) await Native.saveImage(await blobToB64(blob), name, mime, i);
+            if (Native.bridge) { const data = await blobToB64(blob); await nextSecond(); await Native.saveImage(data, name, mime, i); }
             else { const a = h('a', { href: URL.createObjectURL(blob), download: name }); document.body.append(a); a.click(); a.remove(); await sleep(250); }
             bar.firstChild.style.width = ((k + 1) / total * 100) + '%';
           }

@@ -11,8 +11,8 @@ android {
         applicationId = "com.swyp.app"
         minSdk = 29          // Android 10+, saves to the gallery without any storage permission
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 3
+        versionName = "1.1.1"
     }
 
     signingConfigs {
@@ -54,4 +54,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.webkit:webkit:1.12.1")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
 }
